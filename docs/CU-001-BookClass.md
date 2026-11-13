@@ -1,7 +1,8 @@
-El caso de uso **Book
-Class** permite a un socio reservar una clase dirigida. El siguiente diagrama
-ilustra el flujo de secuencia de extremo a extremo desde el cliente HTTP hasta
-la base de datos relacional H2:
+El caso de uso **Book Class** permite a un socio reservar una clase dirigida. El siguiente diagrama
+ilustra el flujo de secuencia de extremo a extremo desde el cliente HTTP hasta la base de datos relacional H2:
+
+
+```markdown
 ```mermaid
 sequenceDiagram
     autonumber
@@ -47,4 +48,3 @@ sequenceDiagram
     AppService-->>InputPort: DTO BookingResponse
     InputPort-->>Controller: DTO BookingResponse
     Controller-->>Cliente: 201 Created (JSON BookingResponse)
-```

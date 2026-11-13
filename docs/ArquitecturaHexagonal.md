@@ -1,42 +1,42 @@
-```mermaid
+````mermaid
 graph TD
     subgraph DrivingAdapters["Adaptadores de Entrada (Driving / Primarios)"]
-        RESTController["GymClassController\n(adapter/in/web)"]
+        RESTController["GymClassController<br/>(adapter/in/web)"]
     end
 
     subgraph HexagonCore["Núcleo de la Aplicación (Application & Domain)"]
         subgraph PortsIn["Puertos de Entrada"]
-            InputPort["GymClassInputPort\n(application/port/in)"]
+            InputPort["GymClassInputPort<br/>(application/port/in)"]
         end
 
         subgraph ApplicationLayer["Capa de Aplicación"]
-            AppService["GymClassApplicationService\n(application/service)"]
+            AppService["GymClassApplicationService<br/>(application/service)"]
         end
 
         subgraph DomainLayer["Capa de Dominio (Pure Java)"]
-            DomainService["BookingPolicy\n(domain/service)"]
-            AggMember["Member (Aggregate Root)\n(domain/model)"]
-            AggClassSession["ClassSession (Aggregate Root)\n(domain/model)"]
-            EntityBooking["Booking (Entity)\n(domain/model)"]
-            ValueObjects["Value Objects\n(MemberId, SessionId, ClassSchedule...)"]
+            DomainService["BookingPolicy<br/>(domain/service)"]
+            AggMember["Member (Aggregate Root)<br/>(domain/model)"]
+            AggClassSession["ClassSession (Aggregate Root)<br/>(domain/model)"]
+            EntityBooking["Booking (Entity)<br/>(domain/model)"]
+            ValueObjects["Value Objects<br/>(MemberId, SessionId, ClassSchedule...)"]
         end
 
         subgraph PortsOut["Puertos de Salida"]
-            MemberRepoPort["MemberRepositoryPort\n(application/port/out)"]
-            ClassSessionRepoPort["ClassSessionRepositoryPort\n(application/port/out)"]
+            MemberRepoPort["MemberRepositoryPort<br/>(application/port/out)"]
+            ClassSessionRepoPort["ClassSessionRepositoryPort<br/>(application/port/out)"]
         end
     end
 
     subgraph DrivenAdapters["Adaptadores de Salida (Driven / Secundarios)"]
-        MemberRepoAdapter["MemberRepositoryAdapter\n(adapter/out/persistence)"]
-        ClassSessionRepoAdapter["ClassSessionRepositoryAdapter\n(adapter/out/persistence)"]
+        MemberRepoAdapter["MemberRepositoryAdapter<br/>(adapter/out/persistence)"]
+        ClassSessionRepoAdapter["ClassSessionRepositoryAdapter<br/>(adapter/out/persistence)"]
         SpringDataMember["SpringDataMemberRepository"]
         SpringDataClassSession["SpringDataClassSessionRepository"]
-        H2DB[("Base de Datos H2\n(jdbc:h2:mem:gymclassdb)")]
+        H2DB[("Base de Datos H2<br/>(jdbc:h2:mem:gymclassdb)")]
     end
 
     RESTController -->|1. Petición HTTP| InputPort
-    InputPort <|.. Implements | AppService
+    AppService -.->|Implementa| InputPort
     AppService -->|2. Aplica regla| DomainService
     AppService -->|3. Opera sobre| AggMember
     AppService -->|4. Opera sobre| AggClassSession
@@ -47,11 +47,10 @@ graph TD
     AppService -->|5. Carga / Guarda vía| MemberRepoPort
     AppService -->|6. Carga / Guarda vía| ClassSessionRepoPort
 
-    MemberRepoPort <|.. Implements | MemberRepoAdapter
-    ClassSessionRepoPort <|.. Implements | ClassSessionRepoAdapter
+    MemberRepoAdapter -.->|Implementa| MemberRepoPort
+    ClassSessionRepoAdapter -.->|Implementa| ClassSessionRepoPort
 
     MemberRepoAdapter -->|Utiliza| SpringDataMember
     ClassSessionRepoAdapter -->|Utiliza| SpringDataClassSession
     SpringDataMember -->|Persiste en| H2DB
     SpringDataClassSession -->|Persiste en| H2DB
-```

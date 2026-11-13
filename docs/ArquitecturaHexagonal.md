@@ -54,3 +54,4 @@ graph TD
     ClassSessionRepoAdapter -->|Utiliza| SpringDataClassSession
     SpringDataMember -->|Persiste en| H2DB
     SpringDataClassSession -->|Persiste en| H2DB
+```
